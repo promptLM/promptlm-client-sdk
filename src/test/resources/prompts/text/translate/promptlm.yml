@@ -1,0 +1,5 @@
+id: translate
+name: Text Translator
+version: 1.0.0
+prompt: |
+  Translate the following text.
