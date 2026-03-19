@@ -1,0 +1,68 @@
+name: Release Java SDK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version to publish
+        required: true
+      auto_publish:
+        description: Publish automatically after Sonatype Central validation
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  release-java:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      CENTRAL_AUTO_PUBLISH: ${{ inputs.auto_publish && 'true' || 'false' }}
+      CENTRAL_WAIT_UNTIL: ${{ inputs.auto_publish && 'published' || 'validated' }}
+      MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+      MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+      MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate version format
+        run: |
+          case "${RELEASE_VERSION}" in
+            *-SNAPSHOT)
+              echo "Release version must not end with -SNAPSHOT" >&2
+              exit 1
+              ;;
+            ''|*[!0-9.]*)
+              echo "Release version must contain only digits and dots" >&2
+              exit 1
+              ;;
+          esac
+
+      - name: Set up Java and Maven Central credentials
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Publish Java SDK to Maven Central
+        run: >
+          ./mvnw -B
+          -Prelease-java
+          -pl client-sdk-java
+          -am
+          -Drevision="${RELEASE_VERSION}"
+          -DskipTests
+          -Dcentral.skipPublishing=false
+          -Dcentral.autoPublish="${CENTRAL_AUTO_PUBLISH}"
+          -Dcentral.waitUntil="${CENTRAL_WAIT_UNTIL}"
+          deploy
