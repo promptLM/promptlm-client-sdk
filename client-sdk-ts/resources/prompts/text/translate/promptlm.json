@@ -1,0 +1,6 @@
+{
+  "id": "translate",
+  "version": "1.0.0",
+  "name": "Text Translator",
+  "prompt": "Translate the following text.\n"
+}
