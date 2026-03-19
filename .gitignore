@@ -3,6 +3,17 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+node_modules/
+dist/
+*.tgz
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.mypy_cache/
+*.egg-info/
+client-sdk-python/dist/
+client-sdk-python/build/
 
 ### STS ###
 .apt_generated
