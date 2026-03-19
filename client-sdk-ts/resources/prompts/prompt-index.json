@@ -1,0 +1,8 @@
+[
+  {
+    "id": "translate",
+    "version": "1.0.0",
+    "name": "Text Translator",
+    "path": "prompts/text/translate/promptlm.json"
+  }
+]
