@@ -1,0 +1,6 @@
+id: invalid-yaml
+name: Invalid YAML
+version: 1.0.0
+prompt: |
+  This is invalid YAML because the next line is not indented correctly:
+this-line-breaks-yaml
