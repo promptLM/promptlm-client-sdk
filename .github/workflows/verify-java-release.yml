@@ -1,0 +1,40 @@
+name: Verify Java Release Build
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/verify-java-release.yml"
+      - ".github/workflows/release-java.yml"
+      - "build-jdk.sh"
+      - "pom.xml"
+      - "client-sdk-java/**"
+      - "docs/releasing-java.md"
+      - "LICENSE"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/verify-java-release.yml"
+      - ".github/workflows/release-java.yml"
+      - "build-jdk.sh"
+      - "pom.xml"
+      - "client-sdk-java/**"
+      - "docs/releasing-java.md"
+      - "LICENSE"
+
+jobs:
+  verify-release-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Verify release profile
+        run: ./mvnw -B -Prelease-java -pl client-sdk-java -am -Dgpg.skip=true -DskipTests verify

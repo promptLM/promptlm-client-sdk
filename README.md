@@ -24,3 +24,7 @@ Java:
 ```bash
 ./build-jdk.sh
 ```
+
+## Release
+
+Java Maven Central release documentation lives in [docs/releasing-java.md](docs/releasing-java.md).

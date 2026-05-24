@@ -8,7 +8,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -121,8 +120,8 @@ public class ClasspathPromptLoader implements PromptLoader {
             List<Prompt> prompts = objectMapper.readValue(is, new TypeReference<>() {
             });
             prompts.forEach(prompt -> {
-                if (Loader.containsKey(prompt.getPromptId())) {
-                    throw new IllegalStateException("Duplicate prompt id: " + prompt.getPromptId());
+                if (Loader.containsKey(prompt.getId())) {
+                    throw new IllegalStateException("Duplicate prompt id: " + prompt.getId());
                 }
                 Loader.put(prompt.getId(), prompt);
             });
@@ -133,23 +132,31 @@ public class ClasspathPromptLoader implements PromptLoader {
 
     @Override
     public Prompt loadPrompt(String promptId) {
-        Prompt prompt = Loader.get(promptId);
-        if (prompt == null)
+        Prompt indexPrompt = Loader.get(promptId);
+
+        if (indexPrompt == null) {
             throw new IllegalArgumentException("Unknown Prompt ID: " + promptId);
-        Path path = prompt.getPath();
+        }
+
+        Path path = indexPrompt.getPath();
         String resourcePath = path.toString().startsWith("/") ? path.toString() : "/" + path.toString();
+
         try (InputStream is = ClasspathPromptLoader.class.getResourceAsStream(resourcePath)) {
             if (is == null)
-                throw new RuntimeException("Prompt file not found at path: " + resourcePath + " for prompt: " + prompt);
+                throw new RuntimeException("Prompt file not found at path: " + resourcePath + " for prompt: " + indexPrompt);
             
             // Parse YAML file to get the prompt content
             ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
             yamlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             Prompt yamlPrompt = yamlMapper.readValue(is, Prompt.class);
             
-            // Update the prompt with the content from YAML file
-            prompt.setPrompt(yamlPrompt.getPrompt());
-            return prompt;
+            return new Prompt(
+                    indexPrompt.getId(),
+                    indexPrompt.getVersion(),
+                    indexPrompt.getName(),
+                    yamlPrompt.getPrompt(),
+                    indexPrompt.getPath()
+            );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

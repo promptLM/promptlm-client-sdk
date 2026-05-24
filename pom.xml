@@ -6,20 +6,53 @@
 
     <groupId>dev.promptlm</groupId>
     <artifactId>promptlm-client-sdk-parent</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>promptlm-client-sdk-parent</name>
     <description>Standalone promptLM client SDK project</description>
+    <url>https://github.com/promptLM/promptlm-client-sdk</url>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>promptlm</id>
+            <name>promptLM Team</name>
+            <organization>promptLM</organization>
+            <organizationUrl>https://github.com/promptLM</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/promptLM/promptlm-client-sdk.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/promptLM/promptlm-client-sdk.git</developerConnection>
+        <url>https://github.com/promptLM/promptlm-client-sdk</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
+        <revision>0.1.0-SNAPSHOT</revision>
         <java.version>17</java.version>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <argLine></argLine>
         <surefire.extraArgs></surefire.extraArgs>
         <maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
+        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.8.0</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
         <spring-boot.version>3.5.4</spring-boot.version>
+        <central.skipPublishing>true</central.skipPublishing>
+        <central.autoPublish>false</central.autoPublish>
+        <central.waitUntil>validated</central.waitUntil>
     </properties>
 
     <modules>
@@ -60,6 +93,47 @@
             <properties>
                 <surefire.extraArgs>-XX:+EnableDynamicAgentLoading</surefire.extraArgs>
             </properties>
+        </profile>
+        <profile>
+            <id>release-java</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <deploymentName>promptlm-client-java ${project.version}</deploymentName>
+                            <skipPublishing>${central.skipPublishing}</skipPublishing>
+                            <autoPublish>${central.autoPublish}</autoPublish>
+                            <waitUntil>${central.waitUntil}</waitUntil>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <bestPractices>false</bestPractices>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
