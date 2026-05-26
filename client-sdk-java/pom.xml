@@ -105,7 +105,7 @@
     <profiles>
         <!--
             Opt-in formatting check. Activate with `-Pspotless` or
-            -Dspotless.check=true. Off by default for 0.1.0.
+            -Dspotless.check=true. Off by default.
         -->
         <profile>
             <id>spotless</id>

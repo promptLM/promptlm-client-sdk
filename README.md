@@ -10,8 +10,8 @@ multiple language bindings.
 | Language   | Module               | Status                              |
 |------------|----------------------|-------------------------------------|
 | Java       | `client-sdk-java`    | Available                           |
-| Python     | `client-sdk-python`  | Work in progress — coming in 0.1.0  |
-| TypeScript | `client-sdk-ts`      | Work in progress — coming in 0.1.0  |
+| Python     | `client-sdk-python`  | Work in progress             |
+| TypeScript | `client-sdk-ts`      | Work in progress             |
 
 ## Install (Java)
 

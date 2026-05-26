@@ -1,8 +1,7 @@
 # Contributing
 
 Thanks for taking the time to help out. This repository hosts the
-promptLM client SDKs: a Java library that's shipping today, plus
-Python and TypeScript packages landing with the 0.1.0 release.
+promptLM client SDKs in Java, Python, and TypeScript.
 
 ## Before you start
 
