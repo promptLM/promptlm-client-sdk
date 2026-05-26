@@ -25,10 +25,15 @@ client-sdk-python/build/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+
+### Secrets / OS ###
+.env
+.env.*
+.DS_Store
 
 ### NetBeans ###
 /nbproject/private/

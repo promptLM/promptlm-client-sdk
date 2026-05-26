@@ -1,6 +1,24 @@
+/*
+ * Copyright 2025 promptLM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.promptlm.client;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +33,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 class ClasspathPromptLoaderDiscoveryIT {
 
@@ -227,12 +241,12 @@ class ClasspathPromptLoaderDiscoveryIT {
     }
 
     private static Path findSdkJar(Path targetDir, String projectVersion) throws IOException {
-        Path jar = targetDir.resolve("promptlm-client-java-" + projectVersion + ".jar");
+        Path jar = targetDir.resolve("promptlm-client-" + projectVersion + ".jar");
         if (Files.exists(jar)) {
             return jar;
         }
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(targetDir, "promptlm-client-java-*.jar")) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(targetDir, "promptlm-client-*.jar")) {
             for (Path candidate : stream) {
                 if (Files.isRegularFile(candidate)
                         && !candidate.getFileName().toString().endsWith("-sources.jar")

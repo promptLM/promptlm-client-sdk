@@ -1,0 +1,16 @@
+# gitleaks configuration for promptlm-client-sdk
+# Extends the built-in default ruleset.
+# See https://github.com/gitleaks/gitleaks for the full rule schema.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist"
+paths = [
+  '''(^|/)\.git/''',
+  '''(^|/)target/''',
+  '''(^|/)node_modules/''',
+  '''(^|/)dist/''',
+  '''(^|/)\.idea/''',
+]

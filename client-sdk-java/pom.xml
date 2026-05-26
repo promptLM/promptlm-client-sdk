@@ -8,11 +8,30 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>promptlm-client-java</artifactId>
-    <name>promptlm-client-java</name>
+    <artifactId>promptlm-client</artifactId>
+    <name>promptlm-client</name>
     <description>Java client SDK for promptLM prompt loading</description>
+
+    <developers>
+        <developer>
+            <id>promptlm</id>
+            <name>promptLM Team</name>
+            <email>noreply@example.invalid</email>
+            <organization>promptLM</organization>
+            <organizationUrl>https://github.com/promptLM</organizationUrl>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>17</java.version>
+        <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
+        <!--
+          License-header enforcement is handled by:
+            * Spotless (locally, via the <licenseHeader> rule below — bound to `verify`)
+            * apache/skywalking-eyes/header GitHub Action in .github/workflows/oss-checks.yml
+          There is no published `license-eye-maven-plugin` on Maven Central, so we
+          do not wire a Maven plugin for it.
+        -->
     </properties>
     <dependencies>
         <dependency>
@@ -36,6 +55,28 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
+            </plugin>
+            <!--
+                Spotless: configured but NOT bound to the default lifecycle.
+                Default `mvn verify` does not run Spotless. To check on demand:
+                    mvn -Pspotless verify     # check, fail on violations
+                    mvn spotless:check        # ad-hoc check
+                    mvn spotless:apply        # apply fixes locally
+
+                License headers are NOT in the Spotless rule set — they are
+                enforced by the pre-commit hook (.pre-commit-config.yaml) and
+                the apache/skywalking-eyes/header GitHub Action in CI.
+            -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
+                <configuration>
+                    <java>
+                        <removeUnusedImports/>
+                        <importOrder/>
+                    </java>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -62,6 +103,37 @@
     </build>
 
     <profiles>
+        <!--
+            Opt-in formatting check. Activate with `-Pspotless` or
+            -Dspotless.check=true. Off by default for 0.1.0.
+        -->
+        <profile>
+            <id>spotless</id>
+            <activation>
+                <property>
+                    <name>spotless.check</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.diffplug.spotless</groupId>
+                        <artifactId>spotless-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>spotless-check</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release-java</id>
             <build>
