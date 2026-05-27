@@ -5,8 +5,8 @@
 Please do not open a public issue, discussion, or pull request for security
 problems.
 
-Email **security@example.invalid** instead, or open a private security
-advisory on this repository.
+Instead, open a [private security advisory](https://github.com/promptLM/promptlm-clients/security/advisories/new)
+on this repository.
 
 Useful information to include:
 

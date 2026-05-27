@@ -19,7 +19,7 @@ shipping software for decades.
 ## If something goes wrong
 
 If you see behavior that breaks these guidelines, or you're on the
-receiving end of it, email **conduct@example.invalid**. Reports stay
+receiving end of it, email **conduct@promptlm.dev**. Reports stay
 confidential. Maintainers will look into it and decide on next steps,
 which may include a warning, a temporary ban, or a permanent ban from
 project spaces.
