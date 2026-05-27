@@ -1,27 +1,29 @@
 # Code of Conduct
 
-We want this project to be a welcoming place to work on prompt
-tooling, whether you're a first-time contributor or you've been
-shipping software for decades.
+## Our Pledge
 
-## What we expect
+We as contributors and maintainers pledge to make participation in the promptLM
+project a harassment-free experience for everyone, regardless of age, body size,
+disability, ethnicity, gender identity and expression, level of experience,
+nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-- Treat each other with respect. Disagree about the code, not the
-  person.
-- Assume good faith. Most misunderstandings on the internet are just
-  misunderstandings.
-- Keep discussions on-topic and constructive. Help newcomers find
-  their footing.
-- Don't harass, demean, or single people out. That includes the
-  obvious stuff (slurs, threats, sexual content) and the less obvious
-  stuff (sustained nitpicking, dogpiling, public shaming).
+## Our Standards
 
-## If something goes wrong
+Examples of behavior that contributes to a positive environment:
 
-If you see behavior that breaks these guidelines, or you're on the
-receiving end of it, email **conduct@promptlm.dev**. Reports stay
-confidential. Maintainers will look into it and decide on next steps,
-which may include a warning, a temporary ban, or a permanent ban from
-project spaces.
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive feedback
+- Focusing on what is best for the community
 
-Thanks for helping keep the project healthy.
+Examples of unacceptable behavior:
+
+- Harassment, insulting, or derogatory comments in any form
+- Publishing others' private information without explicit permission
+- Any conduct that could reasonably be considered inappropriate in a professional setting
+
+## Enforcement
+
+Instances of unacceptable behavior may be reported by opening a confidential
+issue or contacting the maintainers directly via GitHub. All complaints will be
+reviewed and investigated promptly and fairly.
