@@ -13,7 +13,25 @@ on:
         default: true
 
 jobs:
+  verify-java-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Verify release profile
+        run: ./mvnw -B -Prelease-java -pl client-sdk-java -am -Dgpg.skip=true -Drevision="${{ inputs.version }}" verify
+
   release-java:
+    needs: verify-java-release
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -61,7 +79,6 @@ jobs:
           -pl client-sdk-java
           -am
           -Drevision="${RELEASE_VERSION}"
-          -DskipTests
           -Dcentral.skipPublishing=false
           -Dcentral.autoPublish="${CENTRAL_AUTO_PUBLISH}"
           -Dcentral.waitUntil="${CENTRAL_WAIT_UNTIL}"

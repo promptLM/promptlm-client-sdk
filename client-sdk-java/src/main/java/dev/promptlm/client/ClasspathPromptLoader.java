@@ -1,32 +1,50 @@
+/*
+ * Copyright 2025 promptLM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package dev.promptlm.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.net.URL;
-import java.nio.file.Files;
 
 
+/**
+ * {@link PromptLoader} that discovers prompt bundles on the JVM
+ * classpath. On first use it scans every classpath entry (directory
+ * or JAR) for a {@code prompts/prompt-index.json} resource, builds an
+ * in-memory index keyed by prompt id, and then resolves each prompt's
+ * body lazily from the YAML resource the index points to.
+ */
 public class ClasspathPromptLoader implements PromptLoader {
-    /**
-     * Set of cached prompts
-     */
-//    private static final Map<String, Prompt> promptIndex = new HashMap<>();
 
+    /** Classpath resource path of the prompt index file. */
     public static final String INDEX_JSON = "prompts/prompt-index.json";
 
     private static class Loader {
@@ -130,6 +148,15 @@ public class ClasspathPromptLoader implements PromptLoader {
         }
     }
 
+    /**
+     * Resolve a prompt by id from the classpath-discovered index and
+     * load its body from the referenced YAML resource.
+     *
+     * @param promptId the stable identifier of the prompt to load.
+     * @return the fully resolved {@link Prompt} including its body.
+     * @throws IllegalArgumentException if {@code promptId} is not in the index.
+     * @throws RuntimeException if the referenced resource cannot be read or parsed.
+     */
     @Override
     public Prompt loadPrompt(String promptId) {
         Prompt indexPrompt = Loader.get(promptId);

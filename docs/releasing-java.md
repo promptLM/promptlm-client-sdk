@@ -5,7 +5,7 @@ This repository publishes the Java SDK to Maven Central by running the `release-
 ## Coordinates
 
 - Group ID: `dev.promptlm`
-- Artifact ID: `promptlm-client-java`
+- Artifact ID: `promptlm-client`
 
 ## Required Secrets
 

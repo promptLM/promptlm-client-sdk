@@ -13,21 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dev.promptlm.client;
-
-/**
- * Strategy for resolving a prompt by identifier. Implementations
- * decide where prompts come from (classpath, filesystem, network,
- * etc.) and how they are cached.
- */
-public interface PromptLoader {
-
-    /**
-     * Load the prompt with the given identifier.
-     *
-     * @param promptId the stable identifier of the prompt to load.
-     * @return the fully resolved {@link Prompt}.
-     * @throws IllegalArgumentException if no prompt is registered for {@code promptId}.
-     */
-    Prompt loadPrompt(String promptId);
-}

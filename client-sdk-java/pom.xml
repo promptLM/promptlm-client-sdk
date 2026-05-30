@@ -8,11 +8,28 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>promptlm-client-java</artifactId>
-    <name>promptlm-client-java</name>
+    <artifactId>promptlm-client</artifactId>
+    <name>promptlm-client</name>
     <description>Java client SDK for promptLM prompt loading</description>
+
+    <developers>
+        <developer>
+            <id>promptlm</id>
+            <name>promptLM Team</name>
+            <organization>promptLM</organization>
+            <organizationUrl>https://github.com/promptLM</organizationUrl>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>17</java.version>
+        <!--
+          License-header enforcement is handled by the pre-commit hook
+          (.pre-commit-config.yaml) and the apache/skywalking-eyes/header GitHub
+          Action in .github/workflows/oss-checks.yml. There is no published
+          `license-eye-maven-plugin` on Maven Central, so we do not wire a
+          Maven plugin for it.
+        -->
     </properties>
     <dependencies>
         <dependency>
