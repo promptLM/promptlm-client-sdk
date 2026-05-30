@@ -1,0 +1,18 @@
+# Dependabot version updates — promptlm-clients
+# Org template: https://github.com/promptLM/.github/blob/main/dependabot.template.yml
+#
+# Add `npm` (client-sdk-ts/) and `pip` (client-sdk-python/) entries when
+# those SDKs ship their package.json / pyproject.toml manifests (Phase 1 of
+# the 0.1.0 runbook).
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
